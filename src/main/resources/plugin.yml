@@ -1,0 +1,4 @@
+name: TownyCompanies
+version: '${project.version}'
+main: org.papiricoh.townycompanies.TownyCompanie
+api-version: '1.20'
