@@ -13,21 +13,24 @@ public class Company {
     private String name;
     private Resident owner;
     private List<Resident> employees;
+    private double money;
 
-    public Company(UUID uuid, Town town, String name, Resident owner, List<Resident> employees) {
+    public Company(UUID uuid, Town town, String name, Resident owner, List<Resident> employees, double money) {
         this.uuid = uuid;
         this.town = town;
         this.name = name;
         this.owner = owner;
         this.employees = employees != null ? employees : new ArrayList<>();
+        this.money = money;
     }
 
-    public Company(Town town, String name, Resident owner) {
+    public Company(Town town, String name, Resident owner, double money) {
         this.uuid = UUID.randomUUID();
         this.town = town;
         this.name = name;
         this.owner = owner;
         this.employees = new ArrayList<>();
+        this.money = money;
     }
 
     public UUID getUuid() {
@@ -62,5 +65,23 @@ public class Company {
 
     public void removeEmployee(Resident employee) {
         this.employees.remove(employee);
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void deposit(double money) {
+        this.money += money;
+    }
+
+    public double withdraw(double money) {
+        if( 0 > this.money - money) {
+            double old_money = this.money;
+            this.money = 0;
+            return old_money;
+        }
+        this.money -= money;
+        return money;
     }
 }
