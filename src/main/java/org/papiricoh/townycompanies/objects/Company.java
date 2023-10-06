@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public class Company {
     private UUID uuid;
-    private Town town;
-    private String name;
-    private Resident owner;
-    private List<Resident> employees;
-    private double money;
+    protected Town town;
+    protected String name;
+    protected Resident owner;
+    protected List<Resident> employees;
+    protected double money;
 
     public Company(UUID uuid, Town town, String name, Resident owner, List<Resident> employees, double money) {
         this.uuid = uuid;
