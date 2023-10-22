@@ -2,6 +2,10 @@ package org.papiricoh.townycompanies.objects;
 
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.OfflinePlayer;
+import org.papiricoh.townycompanies.TownyCompanies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,6 @@ public class Company {
     private Resident owner;
     private List<Resident> employees;
     private double money;
-
     public Company(UUID uuid, Town town, String name, Resident owner, List<Resident> employees, double money) {
         this.uuid = uuid;
         this.town = town;
@@ -71,11 +74,11 @@ public class Company {
         return money;
     }
 
-    public void deposit(double money) {
+    private void deposit(double money) {
         this.money += money;
     }
 
-    public double withdraw(double money) {
+    private double withdraw(double money) {
         if( 0 > this.money - money) {
             double old_money = this.money;
             this.money = 0;
@@ -83,5 +86,15 @@ public class Company {
         }
         this.money -= money;
         return money;
+    }
+
+    public void withdraw(OfflinePlayer player, double money) {
+        TownyCompanies.econ.depositPlayer(player, withdraw(money));
+    }
+    public void deposit(OfflinePlayer player, double money) {
+        if(TownyCompanies.econ.getBalance(player) - money >= 0) {
+            TownyCompanies.econ.withdrawPlayer(player, money);
+            deposit(money);
+        }
     }
 }
